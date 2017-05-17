@@ -10,3 +10,6 @@
 [submodule "modules/alternatives"]
 	path = modules/alternatives
 	url = https://github.com/voxpupuli/puppet-alternatives.git
+[submodule "modules/tomcat"]
+	path = modules/tomcat
+	url = https://github.com/puppetlabs/puppetlabs-tomcat.git
