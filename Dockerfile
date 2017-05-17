@@ -10,7 +10,7 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 
-ENV JAVA_HOME "/opt/java_home/java_home"
+ENV JAVA_HOME "/opt/java_home"
 
 ENV MIDPOINT_VERSION "3.5.1"
 

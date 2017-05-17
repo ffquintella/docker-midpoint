@@ -1,1 +1,1 @@
-docker run --name midpoint -ti ffquintella/docker-midpoint:latest /bin/bash
+docker run  --name midpoint --rm -ti ffquintella/docker-midpoint:latest /bin/bash

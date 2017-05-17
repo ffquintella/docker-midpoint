@@ -21,12 +21,16 @@ enabled=1
 gpgcheck=0'
 }
 
+file{ $java_home:
+  ensure => directory
+}
 
-class { 'jdk_oracle':
+-> class { 'jdk_oracle':
   version     => $java_version,
   install_dir => $java_home,
   version_update => $java_version_update,
   version_build  => $java_version_build,
+  version_hash  => $java_version_hash,
   package     => 'server-jre'
 }
 
