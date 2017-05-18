@@ -22,7 +22,7 @@ gpgcheck=0'
 }
 
 file{ $java_home:
-  ensure => directory
+  ensure => directory,
 }
 
 -> class { 'jdk_oracle':
@@ -33,6 +33,51 @@ file{ $java_home:
   version_hash  => $java_version_hash,
   package     => 'server-jre'
 }
+
+-> tomcat::install { $tomcat_home:
+  source_url => $tomcat_url,
+}
+-> tomcat::instance { 'default':
+  catalina_home => $tomcat_home,
+}
+
+-> file{ $midpoint_home:
+  ensure => directory,
+  owner  => 'tomcat',
+  group  => 'tomcat',
+}
+
+-> exec {'Download MidPoint':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "wget -nv https://evolveum.com/downloads/midpoint/${midpoint_version}/midpoint-${midpoint_version}-dist.tar.bz2",
+  cwd     => '/opt',
+  require => Package['wget'],
+}
+-> exec {'Uncompress MidPoint':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "tar xjf midpoint-${midpoint_version}-dist.tar.bz2 -C /opt",
+  cwd     => '/opt',
+}
+-> exec {'Rename MidPoint dir':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "mv midpoint-${midpoint_version} ${midpoint_install_dir}",
+  cwd     => '/opt',
+}
+-> exec {'Removing downloaded file':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "rm midpoint-${midpoint_version}-dist.tar.bz2",
+  cwd     => '/opt',
+}
+-> exec {'Coping WAR':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "cp ${midpoint_install_dir}/war/midpoint.war ${tomcat_home}/webapps/midpoint.war",
+  cwd     => '/opt',
+}
+
+
+#wget -nv https://evolveum.com/downloads/midpoint/${v}/midpoint-${v}-dist.tar.bz2 \
+#&& tar xjf midpoint-${v}-dist.tar.bz2 -C /opt \
+#&& rm -f midpoint-${v}-dist.tar.bz2
 
 /*
 file { '/etc/pki/tls/certs/java':
