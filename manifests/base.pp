@@ -74,6 +74,47 @@ file{ $java_home:
   cwd     => '/opt',
 }
 
+-> exec {'Download Mysql Connector':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "wget -nv https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.42.tar.gz",
+  cwd     => '/opt',
+  require => Package['wget'],
+}
+-> exec {'Uncompress Mysql Connector':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "tar zxf mysql-connector-java-5.1.42.tar.gz -C /opt",
+  cwd     => '/opt',
+}
+-> exec {'Move Mysql Connector':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "mv mysql-connector-java-5.1.42/mysql-connector-java-5.1.42-bin.jar ${tomcat_home}/lib/mysql-connector-java.jar",
+  cwd     => '/opt',
+}
+-> exec {'Removing downloaded Mysql Connector file':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "rm mysql-connector-java-5.1.42.tar.gz",
+  cwd     => '/opt',
+}
+-> exec {'Removing downloaded Mysql Connector dir':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "rm -rf mysql-connector-java-5.1.42",
+  cwd     => '/opt',
+}
+
+-> exec {'Download Oracle Connector':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "wget -nv http://download.oracle.com/otn/utilities_drivers/jdbc/121010/ojdbc7.jar",
+  cwd     => '/opt',
+  require => Package['wget'],
+}
+-> exec {'Move Oracle Connector':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "mv ojdbc7.jar ${tomcat_home}/lib/",
+  cwd     => '/opt',
+}
+
+
+
 
 #wget -nv https://evolveum.com/downloads/midpoint/${v}/midpoint-${v}-dist.tar.bz2 \
 #&& tar xjf midpoint-${v}-dist.tar.bz2 -C /opt \
