@@ -113,7 +113,11 @@ file{ $java_home:
   cwd     => '/opt',
 }
 
-
+-> exec {'Fix Permissions':
+  path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
+  command => "chown -R tomcat:tomcat ${tomcat_home}/lib/*",
+  cwd     => '/opt',
+}
 
 
 #wget -nv https://evolveum.com/downloads/midpoint/${v}/midpoint-${v}-dist.tar.bz2 \
