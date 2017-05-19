@@ -50,28 +50,30 @@ docker run ffquintella/docker-midpoint:latest
 
 ### Build Variables
 
-- XXX - The version to be installed
+- JAVA_HOME Where java is installed
+- MIDPOINT_VERSION The midpoint version installed
+- MIDPOINT_HOME where midpoint variable files will be hosted
+- MIDPOINT_INSTALL_DIR where midpoint is installed
+- TOMCAT_VERSION The version of the comcat application server used
+- JAVA_OPTS Extra variables like memory and keystore
 
-### Extra Variables
 
-- FACTER_XXX - XXX
 
 ### Data Store
 
 You can mount directly
 
-- XXX
+- /var/opt/midpoint - midpoint variable files
 
 ### User
 
-No special users
+Files are created under tomcat user (uid 1000)
 
 ### Ports
 
 Next ports are exposed
 
 * `8080/tcp` - default port
-
 
 
 ## Credits
