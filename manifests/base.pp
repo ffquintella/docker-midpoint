@@ -101,6 +101,7 @@ file{ $java_home:
   cwd     => '/opt',
 }
 
+/*
 -> exec {'Download Oracle Connector':
   path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
   command => "wget -nv http://download.oracle.com/otn/utilities_drivers/jdbc/121010/ojdbc7.jar",
@@ -117,78 +118,4 @@ file{ $java_home:
   path    => ['/usr/bin', '/bin', '/sbin', '/usr/sbin'],
   command => "chown -R tomcat:tomcat ${tomcat_home}/lib/*",
   cwd     => '/opt',
-}
-
-
-#wget -nv https://evolveum.com/downloads/midpoint/${v}/midpoint-${v}-dist.tar.bz2 \
-#&& tar xjf midpoint-${v}-dist.tar.bz2 -C /opt \
-#&& rm -f midpoint-${v}-dist.tar.bz2
-
-/*
-file { '/etc/pki/tls/certs/java':
-  ensure  => directory
-} ->
-
-file { '/etc/pki/tls/certs/java/cacerts':
-  ensure  => link,
-  target  => '/etc/pki/ca-trust/extracted/java/cacerts'
-} ->
-
-file { "/opt/java_home/jdk1.${java_version}.0_${java_version_update}/jre/lib/security/cacerts":
-  ensure  => link,
-  target  => '/etc/pki/tls/certs/java/cacerts'
-}
-
-# Install rundeck repo
-exec {'Install repository':
-  path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-  command => 'rpm -Uvh http://repo.rundeck.org/latest.rpm',
-  creates => '/etc/yum.repos.d/rundeck.repo',
-} ->
-
-# Full update
-exec {'Full update':
-  path    => '/bin:/sbin:/usr/bin:/usr/sbin',
-  command => 'yum -y update',
-  timeout => 1800,
-} ->
-
-package {'rundeck':
-  ensure => $rundeck_version,
-} ->
-package {'rundeck-config':
-  ensure => $rundeck_version,
-} ->
-
-file { '/d_bck':
-  ensure  => directory,
-} ->
-
-file { '/d_bck/rundeck':
-  ensure  => directory,
-  recurse => true,
-  purge   => true,
-  source  => 'file:///etc/rundeck',
-} ->
-
-# Cleaning unused packages to decrease image size
-exec {'erase installer':
-  path  => '/bin:/sbin:/usr/bin:/usr/sbin',
-  command => 'rm -rf /tmp/*; rm -rf /opt/staging/*'
-} ->
-
-exec {'erase cache':
-  path  => '/bin:/sbin:/usr/bin:/usr/sbin',
-  command => 'rm -rf /var/cache/*'
-}
-
-
-package {'rhn-check': ensure => absent }
-package {'rhn-client-tools': ensure => absent }
-package {'rhn-setup': ensure => absent }
-package {'rhnlib': ensure => absent }
-
-package {'/usr/share/kde4':
-  ensure => absent
-}
-*/
+}*/
